@@ -20,13 +20,13 @@ import java.util.concurrent.TimeUnit;
 @GraphWalker(value = "random(time_duration(1))", start = "e_Start")
 public class TestAddRecipeeHappyPath extends ExecutionContext implements AddRecipe4 {
     private AddRecipeAdapter addRecipeAdapter = new AddRecipeAdapter();
-    private static String NAME = "";
+    private static String NAME = "GP";
     private static String PRICE = "35.99";
     private static String COFFEE = "5";
     private static String SUGAR = "2";
-    private static String MILK = "3";
+    private static String MILK = "1";
     private static String CHOCOLATE = "1";
-    private static String REASON = "must be a posiive integer";
+    private static String REASON = "must be a positive integer";
     private static final int recipesToAdd = 1;
     private static int recipesAdded = 0;
     public final static Path MODEL_PATH = Paths.get("com/coffee/AddRecipe4.graphml");
@@ -50,7 +50,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
             addRecipeAdapter.set_coffee();
             Assert.assertEquals(addRecipeAdapter.coffeeUnits, COFFEE);
         } catch (RecipeException e) {
-            Assert.assertTrue(e.getMessage().contains("must be a positive integer"));
+            Assert.assertTrue(e.getMessage().contains(REASON));
             e.printStackTrace();
         }
 
@@ -58,7 +58,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
 
     @Override
     public void e_CatchExceptionChocolateParcing() {
-        Assert.assertTrue(addRecipeAdapter.catchExceptionReason("Chocolate must be a positive integer"));
+        Assert.assertTrue(addRecipeAdapter.catchExceptionReason("Chocolate "+REASON));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
             addRecipeAdapter.set_price();
             Assert.assertEquals(addRecipeAdapter.price, PRICE);
         } catch (RecipeException e) {
-            Assert.assertTrue(e.getMessage().contains("must be a positive integer"));
+            Assert.assertTrue(e.getMessage().contains(REASON));
             e.printStackTrace();
         }
     }
@@ -104,7 +104,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
             addRecipeAdapter.set_sugar();
             Assert.assertEquals(addRecipeAdapter.sugarUnits, SUGAR);
         } catch (RecipeException e) {
-            Assert.assertTrue(e.getMessage().contains("must be a positive integer"));
+            Assert.assertTrue(e.getMessage().contains(REASON));
             e.printStackTrace();
         }
     }
@@ -162,7 +162,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
             int i = addRecipeAdapter.parse_milk();
             Assert.assertEquals(i + " must be equal to " + Integer.parseInt(MILK), i, Integer.parseInt(MILK));
         } catch (RecipeException e) {
-            Assert.assertTrue(e.getMessage().contains("must be a positive integer"));
+            Assert.assertTrue(e.getMessage().contains(REASON));
             e.printStackTrace();
         }
     }
@@ -183,7 +183,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
             int i = addRecipeAdapter.parse_sugar();
             Assert.assertEquals(i + " must be equal to " + Integer.parseInt(SUGAR), i, Integer.parseInt(SUGAR));
         } catch (RecipeException e) {
-            Assert.assertTrue(e.getMessage().contains("must be a positive integer"));
+            Assert.assertTrue(e.getMessage().contains(REASON));
             e.printStackTrace();
         }
     }
@@ -214,7 +214,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
             int i = addRecipeAdapter.parse_coffee();
             Assert.assertEquals(i + " must be equal to " + Integer.parseInt(COFFEE), i, Integer.parseInt(COFFEE));
         } catch (RecipeException e) {
-            Assert.assertTrue(e.getMessage().contains("must be a positive integer"));
+            Assert.assertTrue(e.getMessage().contains(REASON));
             e.printStackTrace();
         }
     }
@@ -236,7 +236,7 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
 
     @Override
     public void e_CatchExceptionPriceParcing() {
-        Assert.assertTrue(addRecipeAdapter.catchExceptionReason("must be a positive integer"));
+        Assert.assertTrue(addRecipeAdapter.catchExceptionReason(REASON));
     }
 
     @Override
@@ -327,12 +327,12 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
 
     @Override
     public void e_CatchExceptionMilkParcing() {
-        Assert.assertTrue(addRecipeAdapter.catchExceptionReason("must be a positive integer"));
+        Assert.assertTrue(addRecipeAdapter.catchExceptionReason(REASON));
     }
 
     @Override
     public void e_CatchExceptionSugarParcing() {
-        Assert.assertTrue(addRecipeAdapter.catchExceptionReason("must be a positive integer"));
+        Assert.assertTrue(addRecipeAdapter.catchExceptionReason(REASON));
     }
 
     @Test
