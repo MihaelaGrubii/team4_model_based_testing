@@ -6,11 +6,13 @@ import com.github.javafaker.Faker;
 import org.graphwalker.core.condition.*;
 import org.graphwalker.core.generator.QuickRandomPath;
 import org.graphwalker.core.generator.RandomPath;
+import org.graphwalker.core.generator.WeightedRandomPath;
 import org.graphwalker.core.machine.Context;
 import org.graphwalker.core.machine.ExecutionContext;
 import org.graphwalker.java.annotation.AfterExecution;
 import org.graphwalker.java.annotation.BeforeExecution;
 import org.graphwalker.java.annotation.GraphWalker;
+import org.graphwalker.java.test.Result;
 import org.graphwalker.java.test.TestBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -366,10 +368,44 @@ public class TestAddRecipeeHappyPath extends ExecutionContext implements AddReci
     @Test
     public void functionalTest() {
         Context context = new TestAddRecipeeHappyPath();
-        new TestBuilder()
+         Result b1 = new TestBuilder()
                 .addContext(context, MODEL_PATH, new RandomPath(new EdgeCoverage(100)))
                 .execute();
+         b1.getResults();
+        System.out.println("Done: [" + b1.getResults().toString(2) + "]");
     }
+
+
+    @Test
+    public void functionalTestWeighted() {
+        Context context = new TestAddRecipeeHappyPath();
+        Result b2 = new TestBuilder()
+                .addContext(context, MODEL_PATH, new WeightedRandomPath(new EdgeCoverage(100)))
+                .execute();
+        System.out.println("Done: [" + b2.getResults().toString(2) + "]");
+    }
+
+    @Test
+    public void functionalTestVertex() {
+        Context context = new TestAddRecipeeHappyPath();
+        Result b1 = new TestBuilder()
+                .addContext(context, MODEL_PATH, new RandomPath(new VertexCoverage(100)))
+                .execute();
+        b1.getResults();
+        System.out.println("Done: [" + b1.getResults().toString(2) + "]");
+    }
+
+
+    @Test
+    public void functionalTestWeightedVertex() {
+        Context context = new TestAddRecipeeHappyPath();
+        Result b2 = new TestBuilder()
+                .addContext(context, MODEL_PATH, new WeightedRandomPath(new VertexCoverage(100)))
+                .execute();
+        System.out.println("Done: [" + b2.getResults().toString(2) + "]");
+    }
+
+
 
     //can be counted as one of the tests.
     @Test
