@@ -3,7 +3,7 @@ package coffee.test;
 import coffee.CoffeeMaker;
 import coffee.Recipe;
 import coffee.exceptions.RecipeException;
-import org.junit.Assert;
+import com.github.javafaker.Faker;
 
 public class AddRecipeAdapter {
     //1.initiate SUT
@@ -15,8 +15,9 @@ public class AddRecipeAdapter {
     public String chocolateUnits;
     public String coffeeUnits;
     private boolean recipeAdded = false;
-    private RecipeException recipeException = new RecipeException("");
+    public RecipeException recipeException = new RecipeException("");
     private static CoffeeMaker coffeeMaker;
+    private static Faker faker = new Faker();
 
     //2.create functions which gives a brief about what model does
     public void init() {
@@ -31,20 +32,25 @@ public class AddRecipeAdapter {
         return recipe;
     }
 
-    public void newRecipe(){
-        this.recipe =new Recipe();
+    public void newRecipe() {
+        this.recipe = new Recipe();
+    }
+
+    public static String newNameGenerator() {
+        return faker.book().title();
     }
 
     public void waitForUserInput() {
         System.out.println("waiting for user input ...");
     }
 
-    public void setUserInput(String name, String price, String coffeeUnits, String milkUnits, String chocolateUnits) {
+    public void setUserInput(String name, String price, String coffeeUnits, String milkUnits, String sugar, String chocolateUnits) {
         this.name = name;
         this.price = price;
         this.coffeeUnits = coffeeUnits;
         this.milkUnits = milkUnits;
-        this.coffeeUnits = coffeeUnits;
+        this.chocolateUnits = chocolateUnits;
+        this.sugarUnits = sugar;
     }
 
     public void initiateRecipe() {
@@ -176,8 +182,13 @@ public class AddRecipeAdapter {
     }
 
     public boolean singleRecipeAddedSuccessfully() {
-        recipeAdded = coffeeMaker.addRecipe(recipe);
-        return recipeAdded;
+        try {
+            recipeAdded = coffeeMaker.addRecipe(recipe);
+            return recipeAdded;
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
+        }
+
     }
 
     public String reportIfRecipeAdded() {
